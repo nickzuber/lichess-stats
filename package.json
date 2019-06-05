@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/nickzuber/lichess-stats/issues"
   },
-  "homepage": "https://github.com/nickzuber/lichess-stats#readme"
+  "homepage": "https://github.com/nickzuber/lichess-stats#readme",
+  "dependencies": {
+    "jsdom": "^15.1.1",
+    "moment": "^2.24.0"
+  }
 }
