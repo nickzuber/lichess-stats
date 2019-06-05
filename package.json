@@ -1,0 +1,19 @@
+{
+  "name": "lichess-stats",
+  "version": "1.0.0",
+  "description": "Analytics from my personal Lichess account, aggregated into a single UI.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickzuber/lichess-stats.git"
+  },
+  "author": "Nick Zuber <zuber.nicholas@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nickzuber/lichess-stats/issues"
+  },
+  "homepage": "https://github.com/nickzuber/lichess-stats#readme"
+}
