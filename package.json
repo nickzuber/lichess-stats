@@ -18,6 +18,7 @@
   "homepage": "https://github.com/nickzuber/lichess-stats#readme",
   "dependencies": {
     "jsdom": "^15.1.1",
-    "moment": "^2.24.0"
+    "moment": "^2.24.0",
+    "ora": "^3.4.0"
   }
 }
