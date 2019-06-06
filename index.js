@@ -1,19 +1,24 @@
 const {JSDOM} = require('jsdom');
 const moment = require('moment');
+const chalk = require('chalk');
 const ora = require('ora');
+const spinners = require('cli-spinners');
 const fs = require('fs');
 
 const ErrorType = {
-  FAIL_TO_READ: 1,
-  FAIL_TO_WRITE: 2,
-  FAIL_TO_PARSE: 3
+  FAIL_TO_READ: 'FAIL_TO_READ',
+  FAIL_TO_WRITE: 'FAIL_TO_WRITE',
+  FAIL_TO_PARSE: 'FAIL_TO_PARSE',
+  FAIL_TO_FETCH: 'FAIL_TO_FETCH'
 }
 
 function createHandleError (spinner) {
   return function (errorType) {
     return new Promise((res, rej) => {
-      spinner.text = 'Error!';
-      spinner.fail();
+      spinner.stopAndPersist({
+        symbol: chalk.red`⃠`,
+        text: `Error ${errorType}`
+      });
     });
   }
 }
@@ -23,7 +28,7 @@ function fetch (spinner) {
   spinner.text = 'Fetching Lichess data';
 
   return JSDOM
-    .fromURL('https://lichess.org/')
+    .fromURL('https://lichess.org/@/zube')
     .then(dom => {
       spinner.text = 'Parsing Lichess data';
       const document = dom.window.document;
@@ -77,20 +82,26 @@ function fetch (spinner) {
           }
         });
       });
+    })
+    .catch((err) => {
+      return handleError(ErrorType.FAIL_TO_FETCH);
     });
 }
 
 function main () {
   const spinner = ora({
     text: 'Warming up',
+    color: 'white',
     spinner: {
-      interval: 70,
-      frames: ['◜', '◝', '◟', '◞']
+      ...spinners.dots10,
+      interval: 30
     }
   }).start();
   fetch(spinner).then(() => {
-    spinner.text = 'Done!';
-    spinner.succeed();
+    spinner.stopAndPersist({
+      symbol: chalk.green`✓`,
+      text: `Success`
+    });
   });
 }
 
