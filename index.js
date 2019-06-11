@@ -25,7 +25,7 @@ function createHandleError (spinner) {
 
 function fetch (spinner) {
   const handleError = createHandleError(spinner);
-  spinner.text = 'Fetching Lichess data';
+  spinner.text = 'Fetching data';
 
   return JSDOM
     .fromURL('https://lichess.org/@/zube')
@@ -68,12 +68,23 @@ function fetch (spinner) {
           return handleError(ErrorType.FAIL_TO_READ);
         }
         const data = JSON.parse(json);
+        const newData = Object.keys(newEntries).filter(date => !Object.keys(data.entries).includes(date))
+
         const updatedData = {
           entries: {
             ...data.entries,
             ...newEntries
           }
         };
+
+        if (newData.length > 0) {
+          newData.forEach(rawDate => {
+            const date = new Date(rawDate);
+            console.log(`  ${chalk.green('↗')} New entry found for ${chalk.bold(moment(date).format('LL'))}`)
+          });
+        } else {
+          console.log(`  ${chalk.yellow('∗')} No new entries found`)
+        }
 
         spinner.text = 'Updating data file';
         fs.writeFile('./data.json', JSON.stringify(updatedData, null, 2), (err) => {
